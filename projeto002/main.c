@@ -116,7 +116,7 @@ void listarProduto(){
         printf("========== Produto %i ==========\n"
                "Nome: %s\n"
                "Valor: %.2f\n"
-               "SKU: %i\n", i, produtos[i].nome, produtos[i].preco, produtos[i].SKU);
+               "SKU: %i \n", i, produtos[i].nome, produtos[i].preco, produtos[i].SKU);
     }
 
 }
