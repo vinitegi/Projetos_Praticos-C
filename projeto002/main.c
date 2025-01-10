@@ -112,11 +112,15 @@ void cadastrarProduto(){
 }
 
 void listarProduto(){
-    for (int i = 0; i <= contador_produto; i++) {
+    for (int i = 0; i < contador_produto; i++) {
         printf("========== Produto %i ==========\n"
                "Nome: %s\n"
                "Valor: %.2f\n"
-               "SKU: %i \n", i, produtos[i].nome, produtos[i].preco, produtos[i].SKU);
+               "SKU: %i\n",
+               i + 1,
+               produtos[i].nome,
+               produtos[i].preco,
+               produtos[i].SKU);
     }
 
 }
