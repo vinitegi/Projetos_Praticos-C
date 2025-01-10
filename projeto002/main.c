@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <windows.h> //-> usado no windows
-//#include <unistd.h> -> usado no linux ou mac
+#include <windows.h> // usado no Windows
 
 typedef struct {
     int SKU;
     char nome[30];
     float preco;
-}Produto;
+} Produto;
 
 typedef struct {
-    int quantidade = 0;
-    Produto pruduto;
+    int quantidade;
+    Produto produto;
 } Carrinho;
 
 void infoProduto(Produto prod);
-void menu(); //gerar um menu qnd for inicializado
+void menu();
 void cadastrarProduto();
 void listarProduto();
 void comprarProduto();
@@ -24,7 +23,6 @@ void vizualizarCarrinho();
 void fecharPedido();
 Produto buscaSKU(int codigo);
 int *temNoCarrinho(int codigo);
-void fecharPedido();
 
 static int contador_produto = 0;
 static int contador_carrinho = 0;
@@ -36,13 +34,14 @@ int main(void) {
     return 0;
 }
 
-void infoProduto(Produto prod){
+void infoProduto(Produto prod) {
     printf("Codigo: %d\n"
            "Nome: %s\n"
-           "Valor: %.2f\n", prod.SKU, strtok(prod.nome, "\n"), prod.preco);
+           "Valor: %.2f\n",
+           prod.SKU, strtok(prod.nome, "\n"), prod.preco);
 }
 
-void menu(){
+void menu() {
     int opcao;
     printf("================================\n"
            "========== Bem-vindo! ==========\n"
@@ -56,7 +55,7 @@ void menu(){
            "4 - Carrinho\n"
            "5 - Fechar pedido\n"
            "6 - Sair do sistema\n");
-        scanf("%i", &opcao);
+    scanf("%i", &opcao);
     getchar();
 
     switch (opcao) {
@@ -82,36 +81,43 @@ void menu(){
 
         case 6:
             printf("Volte sempre!\n");
-            Sleep(2);
+            Sleep(2000); // Em milissegundos
             exit(0);
             break;
 
         default:
-            printf("Opcao invalida!");
-            Sleep(2);
+            printf("Opcao invalida!\n");
+            Sleep(2000);
             menu();
             break;
     }
 }
 
-void cadastrarProduto(){
-    printf("Cadastro de Produto\n"
+void cadastrarProduto() {
+    printf("\nCadastro de Produto\n"
            "===================\n");
 
     printf("Informe o nome do produto: \n");
     fgets(produtos[contador_produto].nome, 30, stdin);
 
     printf("Informe o valor do produto: \n");
-    scanf("%f", &produtos[contador_produto].nome);
+    scanf("%f", &produtos[contador_produto].preco);
     getchar();
 
-    printf("O produto %s foi cadastrado com sucesso\n", strtok(produtos[contador_produto].nome, "\n"));
-
     produtos[contador_produto].SKU = (contador_produto + 1);
+
+    printf("O produto '%s' foi cadastrado com sucesso\n",
+           strtok(produtos[contador_produto].nome, "\n"));
+
     contador_produto++;
 }
 
-void listarProduto(){
+void listarProduto() {
+    if (contador_produto == 0) {
+        printf("Nenhum produto cadastrado ainda.\n");
+        return;
+    }
+
     for (int i = 0; i < contador_produto; i++) {
         printf("========== Produto %i ==========\n"
                "Nome: %s\n"
@@ -122,20 +128,4 @@ void listarProduto(){
                produtos[i].preco,
                produtos[i].SKU);
     }
-
-}
-
-void comprarProduto(){
-}
-
-void vizualizarCarrinho(){
-}
-
-void fecharPedido(){
-}
-
-Produto buscaSKU(int codigo){
-}
-
-int *temNoCarrinho(int codigo){
 }
