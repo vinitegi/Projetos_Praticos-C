@@ -120,7 +120,6 @@ void listarProduto() {
     }
 
     printf("Produtos cadastrados: \n");
-
     for (int i = 0; i < contador_produto; i++) {
         printf("================================\n");
         infoProduto(produtos[i]);
@@ -129,7 +128,56 @@ void listarProduto() {
     }
 }
 
-void comprarProduto(){
+void comprarProduto() {
+    if (contador_produto > 0) {
+        printf("Informe o codigo do prduto que deseja adicionar ao carrinho: \n");
+
+        printf("======== Codigos disponiveis ========\n");
+        for (int i = 0; i < contador_produto; i++) {
+            infoProduto(produtos[i]);
+            printf("-----------------------------\n");
+            Sleep(1000);
+        }
+
+        int codigo;
+        scanf("%i", &codigo);
+        getchar();
+
+        //verifica se o produto esta cadastrado
+        int tem_mercado = 0;
+        for (int i = 0; i < contador_produto; i++) {
+            if (produtos[i].SKU == codigo) {
+                tem_mercado = 1;
+
+                //atualiza a quantidade de produtos no carrinho
+                if (contador_carrinho > 0) {
+                    int *retorno = temNoCarrinho(codigo);
+
+
+                    if (retorno[0] == 1) { //verifica se o produto ja esta no carrinho (se retorno[0] == 1 -> existe no carrinho
+                        carrinho[retorno[1]].quantidade++;
+                        printf("Produto ja existente no carrinho. Quantidade do produtos %s aumentada.\n",
+                        strtok(carrinho[retorno[1]].produto.nome, "\n"));
+                        Sleep(2000);
+                        menu();
+                    }else{ //nao existe no carrinho
+                        Produto p = buscaSKU(codigo);
+                        carrinho[contador_carrinho].produto = p;
+                        carrinho[contador_carrinho].quantidade = 1;
+                        contador_carrinho++;
+                        printf("O produto %s foi adicionado ao carrinho!\n", strtok(p.nome, "\n"));
+                        Sleep(2000);
+                        menu();
+                    }
+                }
+            }
+        }
+
+    } else {
+        printf("Nao existem produtos cadastrados.\n");
+        Sleep(2000);
+        menu();
+    }
 }
 
 void vizualizarCarrinho(){
