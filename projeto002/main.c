@@ -146,18 +146,18 @@ void comprarProduto() {
         //verifica se o produto esta cadastrado
         int tem_mercado = 0;
         for (int i = 0; i < contador_produto; i++) {
-            if (produtos[i].SKU == codigo) {
+            if (produtos[i].SKU == codigo) { //verifica se o produto esta cadastrado no sistema
                 tem_mercado = 1;
 
-                //atualiza a quantidade de produtos no carrinho
-                if (contador_carrinho > 0) {
+                //carrinho
+                if (contador_carrinho > 0) { //verifica se existe carrinho
                     int *retorno = temNoCarrinho(codigo);
 
 
                     if (retorno[0] == 1) { //verifica se o produto ja esta no carrinho (se retorno[0] == 1 -> existe no carrinho
                         carrinho[retorno[1]].quantidade++;
-                        printf("Produto ja existente no carrinho. Quantidade do produtos %s aumentada.\n",
-                        strtok(carrinho[retorno[1]].produto.nome, "\n"));
+                        printf("Produto ja existente no carrinho. Quantidade do produtos %s aumentada para %d.\n",
+                        strtok(carrinho[retorno[1]].produto.nome, "\n"), carrinho[retorno[1]].quantidade);
                         Sleep(2000);
                         menu();
                     }else{ //nao existe no carrinho
@@ -169,7 +169,17 @@ void comprarProduto() {
                         Sleep(2000);
                         menu();
                     }
+                } else {
+                    Produto p = buscaSKU(codigo);
+                    carrinho[contador_carrinho].produto = p;
+                    carrinho[contador_carrinho].quantidade = 1;
+                    contador_carrinho++;
+                    printf("O produto %s foi adicionado ao carrinho!\n", strtok(p.nome, "\n"));
+                    Sleep(2000);
+                    menu();
                 }
+            } else {
+                printf("Produto nao cadastrado no sistema!\n");
             }
         }
 
