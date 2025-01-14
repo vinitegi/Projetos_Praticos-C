@@ -143,7 +143,6 @@ void comprarProduto() {
         scanf("%i", &codigo);
         getchar();
 
-        //verifica se o produto esta cadastrado
         int tem_mercado = 0;
         for (int i = 0; i < contador_produto; i++) {
             if (produtos[i].SKU == codigo) { //verifica se o produto esta cadastrado no sistema
