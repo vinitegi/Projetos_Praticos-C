@@ -43,10 +43,11 @@ void infoProduto(Produto prod) {
 
 void menu() {
     int opcao;
-    printf("================================\n"
+    printf("\n\n================================\n"
            "========== Bem-vindo! ==========\n"
            "========= Muscle Store =========\n"
-           "================================\n");
+           "================================\n"
+           "\n");
 
     printf("Selecione uma das opcoes abaixo:\n"
            "1 - Cadastro de produto\n"
@@ -231,11 +232,11 @@ void fecharPedido(){
         //limpar o carrinho
         contador_carrinho = 0;
         printf("Obrigado pela preferencia!\n");
-        Sleep(5000);
+        Sleep(3000);
         menu();
     } else {
         printf("O carrinho esta vazio!");
-        Sleep(3000);
+        Sleep(2000);
         menu();
     }
 }
