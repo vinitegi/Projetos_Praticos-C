@@ -129,8 +129,8 @@ void listarProduto() {
         infoProduto(produtos[i]);
         printf("================================\n");
         Sleep(1000);
-        menu();
     }
+    menu();
 }
 
 void comprarProduto() {
