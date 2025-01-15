@@ -100,6 +100,7 @@ void cadastrarProduto() {
 
     printf("Informe o nome do produto: \n");
     fgets(produtos[contador_produto].nome, 30, stdin);
+    produtos[contador_produto].nome[strlen(produtos[contador_produto].nome) - 1] = '\0';
 
     printf("Informe o valor do produto: \n");
     scanf("%f", &produtos[contador_produto].preco);
@@ -111,6 +112,8 @@ void cadastrarProduto() {
            strtok(produtos[contador_produto].nome, "\n"));
 
     contador_produto++;
+    Sleep(2000);
+    menu();
 }
 
 void listarProduto() {
@@ -126,6 +129,7 @@ void listarProduto() {
         infoProduto(produtos[i]);
         printf("================================\n");
         Sleep(1000);
+        menu();
     }
 }
 
@@ -211,6 +215,7 @@ void vizualizarCarrinho(){
         printf("================================\n");
         Sleep(1000);
     }
+    menu();
 }
 
 
