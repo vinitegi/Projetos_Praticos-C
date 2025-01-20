@@ -139,21 +139,83 @@ void listarContas(){
 }
 
 float atualizaSaldoTotal(Accont conta){
-
+    return conta.saldo + conta.limete;
 }
 
-Accont buscarContaPorNumero(int numero){
-
+Accont buscarContaPorNumero(int numero) {
+    Accont c;
+    if (contador_contas > 0) {
+        for (int i = 0; i < contador_contas; i++) {
+            if (contas[i].numeroConta == numero) {
+                c = contas[i];
+            } else {
+                printf("Conta inexistente!");
+            }
+        }
+        return c;
+    } else {
+        printf("Ainda nao existem contas cadastradas!");
+    }
 }
 
 void sacar(Accont conta, float valor){
-
+    if (valor > 0 && conta.saldoTotal >= valor) {
+        for (int i = 0; i < contador_contas; i++) {
+            if (contas[i].numeroConta == conta.numeroConta) {
+                if (contas[i].saldo >= valor) {
+                    contas[i].saldo -= valor;
+                    contas[i].saldoTotal = atualizaSaldoTotal(contas[i]);
+                    printf("Saque efetuado com sucesso!\n");
+                } else {
+                    float restante = contas[i].saldo - valor;
+                    contas[i].limete += restante;
+                    contas[i].saldo = 0.0;
+                    contas[i].saldoTotal = atualizaSaldoTotal(contas[i]);
+                    printf("Saque efetuado com sucesso!\n");
+                }
+            }
+        }
+    } else {
+        printf("Saque nao realizado. Tente novamente!\n");
+        Sleep(2000);
+        menu();
+    }
 }
 
 void depositar(Accont conta, float valor){
-
+    if (valor > 0) {
+        for (int i = 0; i < contador_contas; i++) {
+            if (contas[i].numeroConta == conta.numeroConta) {
+                contas[i].saldo += valor;
+                contas[i].saldoTotal = atualizaSaldoTotal(contas[i]);
+                printf("Deposito efetuado com sucesso!\n");
+            }
+        }
+    } else {
+        printf("Valor invalido! Tente novamente\n");
+        Sleep(2000);
+        menu();
+    }
 }
 
 void trasferir(Accont contaOrigem, Accont contaDestino, float valor){
+    if (valor > 0 && contaOrigem.saldoTotal >= valor) {
+        for (int co = 0; co < contador_contas; co++) {
+            if (contas[co].numeroConta == contaOrigem.numeroConta) {
+                for (int cd = 0; cd < contador_contas; cd++) {
+                    if (contas[cd].numeroConta == contaDestino.numeroConta) {
+                        if (contas[co].saldo >= valor) {
+                            contas[co].saldo -= valor;
+                            contas[cd].saldo += valor;
+                        }
+                    }
 
+                }
+            }
+        }
+    } else {
+        printf("Trasferencia nao realizada. Tente novamente!\n");
+        Sleep(2000);
+        menu();
+    }
 }
