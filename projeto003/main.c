@@ -14,7 +14,7 @@ typedef struct {
 typedef struct {
     int numeroConta;
     User cliente;
-    float limete;
+    float limite;
     float saldo;
     float saldoTotal; //limite + saldo
 }Accont;
@@ -89,7 +89,7 @@ void menu(){
             exit(0);
 
         default:
-            printf("Opcao invalida\n");
+            printf("opcao invalida\n");
         Sleep(2000);
         menu();
         break;
@@ -111,11 +111,11 @@ void infoConta(Accont conta){
        "Cliente: %s\n"
        "Data de Nascimento: %s\n"
        "Data de Cadastro: %s\n"
-       "Limete: %.2f\n"
+       "Limite: %.2f\n"
        "Saldo: %.2f\n"
        "Saldo Total: %.2f\n", conta.numeroConta, strtok(conta.cliente.nome, "\n"),
        strtok(conta.cliente.nascimento, "\n"), strtok(conta.cliente.dataCadastro, "\n"),
-       conta.limete, conta.saldo, conta.saldoTotal);
+       conta.limite, conta.saldo, conta.saldoTotal);
 }
 
 void criarConta(){
@@ -139,7 +139,7 @@ void listarContas(){
 }
 
 float atualizaSaldoTotal(Accont conta){
-    return conta.saldo + conta.limete;
+    return conta.saldo + conta.limite;
 }
 
 Accont buscarContaPorNumero(int numero) {
@@ -168,7 +168,7 @@ void sacar(Accont conta, float valor){
                     printf("Saque efetuado com sucesso!\n");
                 } else {
                     float restante = contas[i].saldo - valor;
-                    contas[i].limete += restante;
+                    contas[i].limite += restante;
                     contas[i].saldo = 0.0;
                     contas[i].saldoTotal = atualizaSaldoTotal(contas[i]);
                     printf("Saque efetuado com sucesso!\n");
@@ -207,6 +207,17 @@ void trasferir(Accont contaOrigem, Accont contaDestino, float valor){
                         if (contas[co].saldo >= valor) {
                             contas[co].saldo -= valor;
                             contas[cd].saldo += valor;
+                            contas[co].saldoTotal = atualizaSaldoTotal(contas[co]);
+                            contas[cd].saldoTotal = atualizaSaldoTotal(contas[cd]);
+                            printf("Transferencia realizada com sucesso!\n");
+                        } else {
+                            float restante = contas[co].saldo - valor;
+                            contas[co].limite += restante;
+                            contas[co].saldo = 0.0;
+                            contas[co].saldoTotal = atualizaSaldoTotal(contas[co]);
+                            contas[cd].saldo += valor;
+                            contas[cd].saldoTotal = atualizaSaldoTotal(contas[cd]);
+                            printf("Transferencia realizada com sucesso!\n");
                         }
                     }
 
