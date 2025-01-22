@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include <windows.h>
 
 typedef struct {
@@ -119,6 +120,40 @@ void infoConta(Accont conta){
 }
 
 void criarConta(){
+    User cliente;
+
+    //data de criacao
+    //sempre colocar um a mais, pq a string finaliza com '\0'
+    char dia[3];
+    char mes[3];
+    char ano[5];
+    char dataCadastro[20];
+    //pega a data atual
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+    if (tm.tm_mday < 10) {
+        sprintf(dia, "0%i", tm.tm_mday);
+    } else {
+        sprintf(dia, "%i", tm.tm_mday);
+    }
+
+    if ((tm.tm_mon + 1) < 10) {
+        sprintf(mes, "0%i", tm.tm_mon + 1);
+    } else {
+        sprintf(mes, "%i", tm.tm_mon + 1);
+    }
+
+    sprintf(ano, "%i", tm.tm_year + 1900);
+
+    strcpy(dataCadastro,"");
+    strcat(dataCadastro, dia);
+    strcat(dataCadastro, "/");
+    strcat(dataCadastro, mes);
+    strcat(dataCadastro, "/");
+    strcat(dataCadastro, ano);
+    strcat(dataCadastro, "\0");
+    strcpy(cliente.dataCadastro, dataCadastro);
 
 }
 
