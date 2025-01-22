@@ -215,15 +215,81 @@ void efetuarSaque(){
 }
 
 void efetuarDeposito() {
+    if (contador_contas > 0) {
+        int numero;
+        printf("Informe o numero da conta: \n");
+        scanf("%i", &numero);
 
+        Accont conta = buscarContaPorNumero(numero);
+
+        if (conta.numeroConta != -1) { // Se a conta foi encontrada
+            float valor;
+            printf("Informe o valor que deseja depositar: \n");
+            scanf("%f", &valor);
+
+            depositar(conta, valor);
+        } else { // Caso a conta não tenha sido encontrada
+            printf("Nenhuma conta encontrada com o numero informado.\n");
+            Sleep(2000);
+            menu();
+        }
+    } else {
+        printf("Ainda nao existem contas cadastradas\n");
+        Sleep(1000);
+        menu();
+    }
 }
 
-void efetuarTransferencia(){
 
+void efetuarTransferencia(){
+    if (contador_contas > 0) {
+        int numero_o, numero_d;
+
+        printf("Informe o numero da sua conta: \n");
+        scanf("%i", &numero_o);
+        Accont conta_o = buscarContaPorNumero(numero_o);
+
+        if (conta_o.numeroConta == numero_o) {
+            printf("Informe o numero da conta destino: \n");
+            scanf("%i", &numero_d);
+
+            Accont conta_d = buscarContaPorNumero(numero_d);
+            if (conta_d.numeroConta == numero_d) {
+                float valor;
+                printf("Informe o valor da transferencia: \n");
+                scanf("%f", &valor);
+                trasferir(conta_o, conta_d, valor);
+            } else {
+                printf("Conta destino nao encontrada. Verifique o numero da conta.\n");
+                Sleep(2000);
+                menu();
+            }
+        } else {
+            printf("Conta de origem nao encontrada. Verifiue o numero da conta.\n");
+            Sleep(2000);
+            menu();
+        }
+
+
+    } else {
+        printf("Ainda nao existem contas cadastradas\n");
+        Sleep(1000);
+        menu();
+    }
 }
 
 void listarContas(){
-
+    if (contador_contas == 0) {
+        printf("Nao existem contas cadastradas ate o momento");
+        Sleep(2000);
+        menu();
+    } else {
+        for (int i = 0; i < contador_contas; i++) {
+            printf("================================\n");
+            infoConta(contas[i]);
+            printf("================================\n");
+        }
+    }
 }
 
 float atualizaSaldoTotal(Accont conta){
