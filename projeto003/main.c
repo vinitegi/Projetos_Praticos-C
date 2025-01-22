@@ -155,10 +155,63 @@ void criarConta(){
     strcat(dataCadastro, "\0");
     strcpy(cliente.dataCadastro, dataCadastro);
 
+    //criar o cliente
+    printf("Informe os dados do cliente:\n");
+    cliente.codigo = contador_clientes + 1;
+
+    printf("Nome do Cliente: \n");
+    fgets(cliente.nome, 50, stdin);
+
+    printf("Email do Cliente: \n");
+    fgets(cliente.email, 50, stdin);
+
+    printf("CPF do Cliente: \n");
+    fgets(cliente.cpf, 20, stdin);
+
+    printf("Data de Nascimento do Cliente: \n");
+    fgets(cliente.nascimento, 20, stdin);
+
+    contador_clientes++;
+
+    //criando a conta
+    contas[contador_contas].numeroConta = contador_contas + 1;
+    contas[contador_contas].cliente = cliente;
+    contas[contador_contas].saldo = 0.0;
+    contas[contador_contas].limite = 0.0;
+    contas[contador_contas].saldoTotal = atualizaSaldoTotal(contas[contador_contas]);
+
+    printf("Conta criada com sucesso!\n\n");
+    printf("Dados da conta:\n");
+    infoConta(contas[contador_contas]);
+    contador_contas++;
+    Sleep(4000);
+    menu();
 }
 
 void efetuarSaque(){
+    if (contador_contas > 0) {
+        int numero;
+        printf("Informe o numero da conta: \n");
+        scanf("%i", &numero);
 
+        Accont conta = buscarContaPorNumero(numero);
+
+        if (conta.numeroConta != -1) { // Se a conta foi encontrada
+            float valor;
+            printf("Informe o valor que deseja sacar: \n");
+            scanf("%f", &valor);
+
+            sacar(conta, valor);
+        } else { // Caso a conta não tenha sido encontrada
+            printf("Nenhuma conta encontrada com o numero informado.\n");
+            Sleep(2000);
+            menu();
+        }
+    } else {
+        printf("Ainda nao existem contas cadastradas\n");
+        Sleep(1000);
+        menu();
+    }
 }
 
 void efetuarDeposito() {
@@ -179,24 +232,22 @@ float atualizaSaldoTotal(Accont conta){
 
 Accont buscarContaPorNumero(int numero) {
     Accont c;
+    c.numeroConta = -1; // Valor indicando "não encontrado"
+
     if (contador_contas > 0) {
         for (int i = 0; i < contador_contas; i++) {
             if (contas[i].numeroConta == numero) {
-                c = contas[i];
-            } else {
-                printf("Conta inexistente!");
+                return contas[i]; // Retorna a conta assim que encontrada
             }
         }
-        return c;
-    } else {
-        printf("Ainda nao existem contas cadastradas!");
     }
+    return c; // Retorna a conta não encontrada
 }
 
 void sacar(Accont conta, float valor){
     if (valor > 0 && conta.saldoTotal >= valor) {
-        for (int i = 0; i < contador_contas; i++) {
-            if (contas[i].numeroConta == conta.numeroConta) {
+        for (int i = 0; i < contador_contas; i++) { //varre todas as contas
+            if (contas[i].numeroConta == conta.numeroConta) { //acha a conta desejada
                 if (contas[i].saldo >= valor) {
                     contas[i].saldo -= valor;
                     contas[i].saldoTotal = atualizaSaldoTotal(contas[i]);
