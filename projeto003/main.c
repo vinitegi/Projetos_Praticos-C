@@ -202,6 +202,8 @@ void efetuarSaque(){
             scanf("%f", &valor);
 
             sacar(conta, valor);
+            Sleep(2000);
+            menu();
         } else { // Caso a conta não tenha sido encontrada
             printf("Nenhuma conta encontrada com o numero informado.\n");
             Sleep(2000);
@@ -228,6 +230,8 @@ void efetuarDeposito() {
             scanf("%f", &valor);
 
             depositar(conta, valor);
+            Sleep(2000);
+            menu();
         } else { // Caso a conta não tenha sido encontrada
             printf("Nenhuma conta encontrada com o numero informado.\n");
             Sleep(2000);
@@ -259,6 +263,8 @@ void efetuarTransferencia(){
                 printf("Informe o valor da transferencia: \n");
                 scanf("%f", &valor);
                 trasferir(conta_o, conta_d, valor);
+                Sleep(2000);
+                menu();
             } else {
                 printf("Conta destino nao encontrada. Verifique o numero da conta.\n");
                 Sleep(2000);
@@ -318,6 +324,7 @@ void sacar(Accont conta, float valor){
                     contas[i].saldo -= valor;
                     contas[i].saldoTotal = atualizaSaldoTotal(contas[i]);
                     printf("Saque efetuado com sucesso!\n");
+                    printf("Saldo atual: %.2f\n", contas[i].saldo);
                 } else {
                     float restante = contas[i].saldo - valor;
                     contas[i].limite += restante;
@@ -341,6 +348,7 @@ void depositar(Accont conta, float valor){
                 contas[i].saldo += valor;
                 contas[i].saldoTotal = atualizaSaldoTotal(contas[i]);
                 printf("Deposito efetuado com sucesso!\n");
+                printf("Saldo atual: %.2f\n", contas[i].saldo);
             }
         }
     } else {
@@ -362,6 +370,7 @@ void trasferir(Accont contaOrigem, Accont contaDestino, float valor){
                             contas[co].saldoTotal = atualizaSaldoTotal(contas[co]);
                             contas[cd].saldoTotal = atualizaSaldoTotal(contas[cd]);
                             printf("Transferencia realizada com sucesso!\n");
+                            printf("Salto atual: %.2f\n", contas[co].saldo);
                         } else {
                             float restante = contas[co].saldo - valor;
                             contas[co].limite += restante;
